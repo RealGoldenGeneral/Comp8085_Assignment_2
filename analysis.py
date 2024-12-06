@@ -23,7 +23,7 @@ class YelpReviewDataset(Dataset):
     def __len__(self):
         return len(self.labels)
     
-def predict_on_test(model, data_loader):
+def predict_on_test(model, data_loader, device):
     batch_number = 0
     model.eval()
     all_preds = []
@@ -112,7 +112,7 @@ def training_mode_bert(filename):
             for chunk in reader:
                 chunk_array.append(chunk)
                 chunk_number += 1
-                print(f"Chunk {chunk_number}/{len(reader)} done.")
+                print(f"Chunk {chunk_number} done.")
     except Exception as e:
         print(f"An error occured with the file reader: {e}")
         return
@@ -196,7 +196,7 @@ def inference_mode_bert(filename):
             for chunk in reader:
                 chunk_array.append(chunk)
                 chunk_number += 1
-                print(f"Chunk {chunk_number}/{len(reader)} done.")
+                print(f"Chunk {chunk_number} done.")
     except Exception as e:
         print(f"An error occured with the file reader: {e}")
         return
@@ -224,10 +224,13 @@ def inference_mode_bert(filename):
     # Create DataLoader object
     print("Creating data loader...")
     test_loader = DataLoader(test_dataset, batch_size=6)
+    
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model.to(device)
 
     # Get predictions on the test set
     print("Running inference...")
-    test_preds, test_labels = predict_on_test(model, test_loader)
+    test_preds, test_labels = predict_on_test(model, test_loader, device)
 
     mse = mean_squared_error(test_labels, test_preds)
     print(f'Mean Squared Error on the test set: {mse}')
