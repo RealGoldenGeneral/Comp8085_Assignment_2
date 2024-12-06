@@ -8,6 +8,7 @@ from sklearn.metrics import mean_squared_error
 import numpy as np
 import pickle
 import sys
+import urllib.request
 
  # Create custom Dataset class
 class YelpReviewDataset(Dataset):
@@ -183,8 +184,14 @@ def inference_mode_bert(filename):
     chunk_number = 0
     chunk_array = []
     try:
+        print("Downloading pickled model...")
+        urllib.request.urlretrieve("https://drive.usercontent.google.com/download?id=1ULHtvKqsl-1g8ymxdSYEUEV2Bsz2CkKv&export=download&authuser=0&confirm=t&uuid=88b80dcf-436a-4034-959d-6069debb6aa9&at=APvzH3qiYKOcDzxDYmdzj7JvCS1_:1733462274757", "BERT.pkl")
+    except Exception as e:
+        print(f"An error has occured downloading the file: {e}")
+        return
+    try:
         print("Opening model...")
-        with open("./pickled_models/BERT.pkl", 'rb') as file:
+        with open("BERT.pkl", 'rb') as file:
             model = pickle.load(file)
     except Exception as e:
         print(f"An error has occured with loading the model: {e}")
