@@ -245,7 +245,7 @@ def main(model_type, mode, filename):
         elif (model_type == "rnn"):
             # Insert functions for RNN here
             return
-        elif (model_type == "naive bayes"):
+        elif (model_type == "naivebayes"):
             # Insert function for naive bayes here
             return
         else:
@@ -257,7 +257,7 @@ def main(model_type, mode, filename):
         elif (model_type == "rnn"):
             # Insert functions for RNN here
             return
-        elif (model_type == "naive bayes"):
+        elif (model_type == "naivebayes"):
             # Insert function for naive bayes here
             return
         else:
